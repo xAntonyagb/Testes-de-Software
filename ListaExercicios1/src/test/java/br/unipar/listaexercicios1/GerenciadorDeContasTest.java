@@ -1,5 +1,6 @@
 package br.unipar.listaexercicios1;
 
+import br.unipar.listaexercicios1.exceptions.ValidationException;
 import br.unipar.listaexercicios1.exercises.GerenciadorDeContas;
 import br.unipar.listaexercicios1.models.Conta;
 import org.junit.jupiter.api.AfterEach;
@@ -35,33 +36,44 @@ public class GerenciadorDeContasTest {
 
     @Test
     public void testAdicionarConta() {
-        System.out.println("adicionarConta");
-        Conta conta = null;
-        GerenciadorDeContas instance = new GerenciadorDeContas();
-        instance.adicionarConta(conta);
-        fail("The test case is a prototype.");
+        Conta conta = new Conta(1, 100, "Titular 1");
+        gerenciador.adicionarConta(conta);
+        assertNotNull(gerenciador.contas);
     }
 
     @Test
     public void testBuscarContaPorNumero() {
-        System.out.println("buscarContaPorNumero");
-        int numero = 0;
-        GerenciadorDeContas instance = new GerenciadorDeContas();
-        Conta expResult = null;
-        Conta result = instance.buscarContaPorNumero(numero);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        Conta conta = new Conta(1, 100, "Titular 1");
+        gerenciador.adicionarConta(conta);
+
+        assertNotNull( gerenciador.buscarContaPorNumero(1));
+        assertEquals(1, gerenciador.buscarContaPorNumero(1).getNumero());
     }
 
     @Test
     public void testTransferir() {
-        System.out.println("transferir");
-        int numeroContaOrigem = 0;
-        int numeroContaDestino = 0;
-        double valor = 0.0;
-        GerenciadorDeContas instance = new GerenciadorDeContas();
-        instance.transferir(numeroContaOrigem, numeroContaDestino, valor);
-        fail("The test case is a prototype.");
+        Conta user1 = new Conta(1, 100, "Titular 1");
+        gerenciador.adicionarConta(user1);
+        Conta user2 = new Conta(2, -100, "Titular 2");
+        gerenciador.adicionarConta(user2);
+
+        //é pra dar exception se tentar transferir um valor maior que o saldo
+        assertThrows(ValidationException.class, () -> {
+            gerenciador.transferir(2,1, 100);
+        });
+
+        //não é pra dar exception
+        gerenciador.transferir(1,2, 50);
+        assertEquals(50, gerenciador.buscarContaPorNumero(1).getSaldo());
+        assertEquals(-50, gerenciador.buscarContaPorNumero(2).getSaldo());
+
+        //contas inexistentes
+        assertThrows(ValidationException.class, () -> {
+            gerenciador.transferir(3,4, 100);
+        });
+
+        assertThrows(ValidationException.class, () -> {
+            gerenciador.transferir(1,3, 100);
+        });
     }
-    
 }

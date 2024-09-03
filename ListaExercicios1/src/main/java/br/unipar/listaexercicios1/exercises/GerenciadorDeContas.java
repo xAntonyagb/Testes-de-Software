@@ -13,10 +13,12 @@ public class GerenciadorDeContas {
         this.contas = new ArrayList<>();
     }
 
+    //Adiciona uma conta na lista
     public void adicionarConta(Conta conta) {
         contas.add(conta);
     }
 
+    //Para buscar uma conta pelo identificador
     public Conta buscarContaPorNumero(int numero) {
         for (Conta conta : contas) {
             if (conta.getNumero() == numero) {
@@ -26,6 +28,7 @@ public class GerenciadorDeContas {
         return null;
     }
 
+    //Para transferir saldo entre a conta de origem e a conta de destino
     public void transferir(int numeroContaOrigem, int numeroContaDestino, double valor) {
         Conta contaOrigem = buscarContaPorNumero(numeroContaOrigem);
         Conta contaDestino = buscarContaPorNumero(numeroContaDestino);
@@ -54,6 +57,7 @@ public class GerenciadorDeContas {
         contas.set(posDest, contaDestino);
     }
 
+    //Para retornar a posição da conta na lista
     private int retornaPosLista(Conta conta) {
         for (int i = 0; i < contas.size(); i++) {
             if (contas.get(i).getNumero() == conta.getNumero()) {
