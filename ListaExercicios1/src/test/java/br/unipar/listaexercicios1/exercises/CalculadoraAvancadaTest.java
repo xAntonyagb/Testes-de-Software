@@ -1,7 +1,6 @@
-package br.unipar.listaexercicios1;
+package br.unipar.listaexercicios1.exercises;
 
 import br.unipar.listaexercicios1.exceptions.ValidationException;
-import br.unipar.listaexercicios1.exercises.CalculadoraAvancada;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
